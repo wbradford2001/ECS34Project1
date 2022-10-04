@@ -1,1 +1,1 @@
-print("hello"[0:10])
+print("hello there willy".split("k"))

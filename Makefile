@@ -27,3 +27,7 @@ $(OBJ_DIR)/StringUtils.o: $(SRC_DIR)/StringUtils.cpp $(INC_DIR)/StringUtils.h
 directories:
 	mkdir -p $(BIN_DIR)
 	mkdir -p $(OBJ_DIR)
+
+clean:
+	rm -r $(BIN_DIR)
+	rm -r $(OBJ_DIR)

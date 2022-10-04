@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "StringUtils.h"
 #include <cstring>
+#include <vector>
 using namespace std;
 
 TEST(StringUtilsTest, SliceTest){
@@ -189,21 +190,62 @@ TEST(StringUtilsTest, Replace){
     string str6 = "";
     string old6 = "h";
     string replace6 = "x";        
-    ASSERT_EQ("xello txere buddy",StringUtils::Replace(str6, old6, replace6));       
+    ASSERT_EQ("",StringUtils::Replace(str6, old6, replace6));       
 
 
 }
 
 TEST(StringUtilsTest, Split){
-    
+    string str = "hello,there,pal";   
+    vector<string> vec = {"hello", "there", "pal"};
+    ASSERT_EQ(vec,StringUtils::Split(str, ","));    
+
+    string str2 = "hello there pal";   
+    vector<string> vec2 = {"hello", "there", "pal"};
+    ASSERT_EQ(vec2,StringUtils::Split(str2, "")); 
+
+    string str3 = "hello there pal";   
+    vector<string> vec3 = {"hello", "there", "pal"};
+    ASSERT_EQ(vec3,StringUtils::Split(str3, " "));  
+
+    string str4 = "how;are;you;doing;today";   
+    vector<string> vec4 = {"how", "are", "you", "doing", "today"};
+    ASSERT_EQ(vec4,StringUtils::Split(str4, ";"));      
+
+    string str5 = "how;are;you;doing;today";   
+    vector<string> vec5 = {"how;are;you;doing;today"};
+    ASSERT_EQ(vec5,StringUtils::Split(str5, "l"));   
+
+    string str6 = "";   
+    vector<string> vec6 = {};
+    ASSERT_EQ(vec6,StringUtils::Split(str6, ""));            
 }
 
 TEST(StringUtilsTest, Join){
-    
+    string str = "hello,there,pal";   
+    vector<string> vec = {"hello", "there", "pal"};
+    ASSERT_EQ(str,StringUtils::Join(",",vec));    
+
+    string str2 = "hellotherepal";   
+    vector<string> vec2 = {"hello", "there", "pal"};
+    ASSERT_EQ(str2,StringUtils::Join("", vec2)); 
+
+    string str3 = "hello there pal";   
+    vector<string> vec3 = {"hello", "there", "pal"};
+    ASSERT_EQ(str3,StringUtils::Join(" ",vec3));  
+
+    string str4 = "how;are;you;doing;today";   
+    vector<string> vec4 = {"how", "are", "you", "doing", "today"};
+    ASSERT_EQ(str4,StringUtils::Join(";",vec4));      
+ 
+
+    string str6 = "";   
+    vector<string> vec6 = {};
+    ASSERT_EQ(str6,StringUtils::Join("", vec6));      
 }
 
 TEST(StringUtilsTest, ExpandTabs){
-    
+
 }
 
 TEST(StringUtilsTest, EditDistance){

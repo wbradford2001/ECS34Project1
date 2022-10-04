@@ -155,44 +155,70 @@ std::string RJust(const std::string &str, int width, char fill) noexcept{
 }
 
 std::string Replace(const std::string &str, const std::string &old, const std::string &rep) noexcept{
-    // int N = str.length();
-    // if (N==0){
-    //     return "";
-    // }
+    int N = str.length();
+    if (N==0){
+        return "";
+    }
 
-    // int subPointer = 0;
-    // int streak = 0;
-    // std::vector<std::string> substrings;
-    // for (int i = 0; i < N; i++){
-    //     std::cout<<"i: "<<i<<", streak: "<<streak<<std::endl;
-    //     if (str[i]==old[subPointer]){
-    //         streak += 1;
-    //         std::cout<<"equal letter, streak=: "<<streak<<std::endl;
+    int subPointer = 0;
+    int streak = 0;
+    std::string ret = str;
+    for (int i = 0; i < N; i++){
+        if (str[i]==old[subPointer]){
+            streak += 1;
 
-    //         if (streak = old.length()){
-    //             //std::string newString = StringUtils::Slice(str,i-old.length(),i+1);
-    //             std::cout<<"Recorded Streak: "<<streak<<std::endl;
-    //             //substrings.push_back(newString);
-    //             streak  = 0;
-    //             subPointer = 0;
-    //         }
-    //         subPointer+= 1;
-    //     } else {
-    //         subPointer = 0;
-    //         streak = 0;
-    //     }
-    // }
-    // return "";
+            if (streak == old.length()){
+                ret.replace(i-old.length()+1, old.length(), rep);
+                
+                
+                streak  = 0;
+                subPointer = 0;
+            }
+            subPointer+= 1;
+        } else {
+            subPointer = 0;
+            streak = 0;
+        }
+    }
+    return ret;
 }
 
 std::vector< std::string > Split(const std::string &str, const std::string &splt) noexcept{
-    // Replace code here
-    return {};
+    int N = str.length();
+    if (N==0){
+        return {};
+    }
+    std::string dlim = splt;
+    if (splt==""){
+        dlim = " ";
+    } 
+    
+    std::vector<std::string> vec;
+    int l = 0;
+    int r = 0;
+
+    while (r < N){
+        std::string s(1, str[r]);
+        if (s == dlim){
+            vec.push_back(StringUtils::Slice(str, l, r));
+            l = r+1;
+        }
+        r += 1;
+    }
+    vec.push_back(StringUtils::Slice(str, l, 0));
+    return vec;
 }
 
 std::string Join(const std::string &str, const std::vector< std::string > &vect) noexcept{
-    // Replace code here
-    return "";
+    std::string ret = "";
+    int N =vect.size();
+    for (int i=0; i< N; i++){
+        ret = ret + vect[i];
+        if (i != N-1){
+            ret = ret + str;
+        }
+    }
+    return ret;
 }
 
 std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
