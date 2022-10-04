@@ -27,14 +27,15 @@ TEST(StringUtilsTest, SliceTest){
     ASSERT_EQ("",StringUtils::Slice(str3, 1, 2));
 
     string str4 = "short";     
-    ASSERT_EQ("",StringUtils::Slice(str4, 1, 100));
+    ASSERT_EQ("hort",StringUtils::Slice(str4, 1, 100));
     ASSERT_EQ("",StringUtils::Slice(str4, 100, 1));
     ASSERT_EQ("",StringUtils::Slice(str4, 1, -100));
     ASSERT_EQ("",StringUtils::Slice(str4, -100, -1));
 
     string str5 = "hey";     
-    ASSERT_EQ("",StringUtils::Slice(str5, 1, 3));
-    ASSERT_EQ("",StringUtils::Slice(str5, 0, 4));
+    ASSERT_EQ("ey",StringUtils::Slice(str5, 1, 3));
+    ASSERT_EQ("hey",StringUtils::Slice(str5, 0, 4));
+    ASSERT_EQ("hey",StringUtils::Slice(str5, 0, 10));    
     ASSERT_EQ("",StringUtils::Slice(str5, 5, 8));
    
    
@@ -150,14 +151,84 @@ TEST(StringUtilsTest, Strip){
 }
 
 TEST(StringUtilsTest, Center){
+    string str = "Hello";
     
+    ASSERT_EQ("__Hello___",StringUtils::Center(str, 10, '_')); 
+    ASSERT_EQ("**Hello***",StringUtils::Center(str, 10, '*')); 
+    ASSERT_EQ("***Hello****",StringUtils::Center(str, 12, '*'));         
+
+    str = "Hello";
+    ASSERT_EQ("   Hello    ",StringUtils::Center(str, 12, ' '));    
+
+    str = "Hello";
+    ASSERT_EQ("    Hello     ",StringUtils::Center(str, 14));   
+    str = "Hello";
+    ASSERT_EQ("Hello ",StringUtils::Center(str, 6));             
+
+    str = "L";
+    ASSERT_EQ(" L ",StringUtils::Center(str, 3));   
+
+    str = "RightJustifyMe";
+    ASSERT_EQ("RightJustifyMe",StringUtils::Center(str, 3));   
+
+    str = "Rig";
+    ASSERT_EQ("Rig",StringUtils::Center(str, 3));  
+
+    str = "";
+    ASSERT_EQ("",StringUtils::Center(str, 3));
 }
 
 TEST(StringUtilsTest, LJust){
     
+    string str = "Hello";
+    
+    ASSERT_EQ("_____Hello",StringUtils::LJust(str, 10, '_')); 
+    ASSERT_EQ("*****Hello",StringUtils::LJust(str, 10, '*'));     
+
+    str = "Hello";
+    ASSERT_EQ("       Hello",StringUtils::LJust(str, 12, ' '));    
+
+    str = "Hello";
+    ASSERT_EQ("         Hello",StringUtils::LJust(str, 14));       
+
+    str = "L";
+    ASSERT_EQ("  L",StringUtils::LJust(str, 3));   
+
+    str = "LeftJustifyMe";
+    ASSERT_EQ("LeftJustifyMe",StringUtils::LJust(str, 3));   
+
+    str = "Lef";
+    ASSERT_EQ("Lef",StringUtils::LJust(str, 3));  
+
+    str = "";
+    ASSERT_EQ("",StringUtils::LJust(str, 3));                     
 }
 
 TEST(StringUtilsTest, RJust){
+
+    string str = "Hello";
+    
+    ASSERT_EQ("Hello_____",StringUtils::RJust(str, 10, '_')); 
+    ASSERT_EQ("Hello*****",StringUtils::RJust(str, 10, '*')); 
+    ASSERT_EQ("Hello*******",StringUtils::RJust(str, 12, '*'));         
+
+    str = "Hello";
+    ASSERT_EQ("Hello       ",StringUtils::RJust(str, 12, ' '));    
+
+    str = "Hello";
+    ASSERT_EQ("Hello         ",StringUtils::RJust(str, 14));       
+
+    str = "L";
+    ASSERT_EQ("L  ",StringUtils::RJust(str, 3));   
+
+    str = "RightJustifyMe";
+    ASSERT_EQ("RightJustifyMe",StringUtils::RJust(str, 3));   
+
+    str = "Rig";
+    ASSERT_EQ("Rig",StringUtils::RJust(str, 3));  
+
+    str = "";
+    ASSERT_EQ("",StringUtils::RJust(str, 3));      
     
 }
 
@@ -245,7 +316,23 @@ TEST(StringUtilsTest, Join){
 }
 
 TEST(StringUtilsTest, ExpandTabs){
+    string str = "hello there   pal";   
+    ASSERT_EQ("hello    there    pal",StringUtils::ExpandTabs(str));    
 
+    str = "hey there   pal";   
+    ASSERT_EQ("hello   there   pal",StringUtils::ExpandTabs(str, 3)); 
+
+    str = "my    name    is  Calvin";   
+    ASSERT_EQ("my   name   is   Calvin",StringUtils::ExpandTabs(str, 3));  
+
+    str = "my    name    is  Calvin";   
+    ASSERT_EQ("my    name    is    Calvin",StringUtils::ExpandTabs(str));
+
+    str = "I Went    To  The Store";   
+    ASSERT_EQ("I  Went  To  The  Store",StringUtils::ExpandTabs(str,2));   
+
+    str = "";   
+    ASSERT_EQ("",StringUtils::ExpandTabs(str,2));                         
 }
 
 TEST(StringUtilsTest, EditDistance){

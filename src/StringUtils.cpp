@@ -17,7 +17,7 @@ std::string Slice(const std::string &str, ssize_t start, ssize_t end) noexcept{
 
     //End is more than last index
     if (end >=N){
-        return "";
+        end=N;
     }
 
     //negative end
@@ -25,8 +25,8 @@ std::string Slice(const std::string &str, ssize_t start, ssize_t end) noexcept{
         end=N+end;
     }  
 
-    //make sure end is within bounts (cannot be N, max is N-1) 
-    if (end>=N || end < 0){
+    //make sure end is within bounts
+    if (end < 0){
         return "";
     }    
     //if end ==0
@@ -140,18 +140,60 @@ std::string Strip(const std::string &str) noexcept{
 }
 
 std::string Center(const std::string &str, int width, char fill) noexcept{
-    // Replace code here
-    return "";
+    int N = str.length();
+    if (N==0){
+        return "";
+    }
+    if (N>=width){
+        return str;
+    } 
+    std::string out = str;
+    std::string side = "right";
+    for (int i = 0; i < width-N; i++){
+        if (side=="right"){
+            out = out + fill;
+            side = "left";
+        } else {
+            out= fill + out;
+            side= "right";
+        }
+    }
+    
+    return out;
 }
 
 std::string LJust(const std::string &str, int width, char fill) noexcept{
-    // Replace code here
-    return "";
+    int N = str.length();
+    if (N==0){
+        return "";
+    }
+    if (N>=width){
+        return str;
+    } 
+    std::string out = "";
+    for (int i = 0; i < width-N; i++){
+        out = out + fill;
+    }
+    out = out + str;
+    return out;
 }
 
 std::string RJust(const std::string &str, int width, char fill) noexcept{
-    // Replace code here
-    return "";
+    int N = str.length();
+    if (N==0){
+        return "";
+    }
+    if (N>=width){
+        return str;
+    } 
+    std::string out = str;
+    
+    for (int i = N; i < width; i++){
+        
+        out = out + fill;
+    }
+
+    return out;
 }
 
 std::string Replace(const std::string &str, const std::string &old, const std::string &rep) noexcept{
@@ -222,8 +264,22 @@ std::string Join(const std::string &str, const std::vector< std::string > &vect)
 }
 
 std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
-    // Replace code here
-    return "";
+    int N = str.length();
+    if (N==0){
+        return "";
+    }
+    std::string copy = str;
+    std::string rep = "";
+    for (int j=0; j< tabsize; j++){
+        rep = rep + " ";
+    }
+
+    for (int i=0; i< N; i++){
+        if (str[i] == '\t'){
+            copy.replace(i, 1, rep);
+        }
+    }
+    return str;
 }
 
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{
