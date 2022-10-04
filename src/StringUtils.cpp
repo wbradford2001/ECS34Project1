@@ -275,16 +275,61 @@ std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
     }
 
     for (int i=0; i< N; i++){
-        if (str[i] == '\t'){
+        if (copy[i] == '\t'){
+            
             copy.replace(i, 1, rep);
         }
     }
-    return str;
+    return copy;
 }
 
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{
-    // Replace code here
-    return 0;
+    int leftN = left.length(); 
+    int rightN = right.length();
+
+    if (leftN==0 || rightN==0){
+        return leftN+rightN;
+    }
+    std::vector<std::vector<int>> dp;
+    for (int i=0; i<leftN+1;i++){
+        std::vector<int> row;
+        for (int j=0;j<rightN+1;j++){
+            row.push_back(0);
+        }
+        dp.push_back(row);
+    }
+
+    for (int i=0; i< leftN+1; i++){
+        dp[i][0]=i;
+    }
+
+    for (int i=0; i< rightN+1; i++){
+        dp[0][i]=i;
+    }   
+
+    for (int i=1; i< leftN+1; i++){
+        for (int j=1; j< rightN+1; j++){
+            //std::cout<<i<<", "<<j<<std::endl;
+            int l = dp[i-1][j]+1;
+
+            int d = dp[i][j-1]+1;
+            int ld = dp[i-1][j-1];
+            if (
+                (left[i-1] != right[j-1] && ignorecase==false)
+                || 
+                (
+                    ignorecase==true && ( toupper(left[i-1]) != toupper(right[j-1]) )
+                )
+                ){
+                ld += 1;
+            }
+            int lvd = std::min(l,d);
+            dp[i][j] = std::min(lvd, ld);
+    
+        }
+    } 
+    return dp[leftN][rightN];
+;
 }
 
 };

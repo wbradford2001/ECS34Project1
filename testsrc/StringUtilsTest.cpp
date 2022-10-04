@@ -316,19 +316,19 @@ TEST(StringUtilsTest, Join){
 }
 
 TEST(StringUtilsTest, ExpandTabs){
-    string str = "hello there   pal";   
+    string str = "hello\tthere\tpal";   
     ASSERT_EQ("hello    there    pal",StringUtils::ExpandTabs(str));    
 
-    str = "hey there   pal";   
-    ASSERT_EQ("hello   there   pal",StringUtils::ExpandTabs(str, 3)); 
+    str = "hey\tthere\tpal";   
+    ASSERT_EQ("hey   there   pal",StringUtils::ExpandTabs(str, 3)); 
 
-    str = "my    name    is  Calvin";   
+    str = "my\tname\tis\tCalvin";   
     ASSERT_EQ("my   name   is   Calvin",StringUtils::ExpandTabs(str, 3));  
 
-    str = "my    name    is  Calvin";   
+    str = "my\tname\tis\tCalvin";   
     ASSERT_EQ("my    name    is    Calvin",StringUtils::ExpandTabs(str));
 
-    str = "I Went    To  The Store";   
+    str = "I\tWent\tTo\tThe\tStore";   
     ASSERT_EQ("I  Went  To  The  Store",StringUtils::ExpandTabs(str,2));   
 
     str = "";   
@@ -336,5 +336,47 @@ TEST(StringUtilsTest, ExpandTabs){
 }
 
 TEST(StringUtilsTest, EditDistance){
+    ASSERT_EQ(3,StringUtils::EditDistance("horse","ros"));
     
+    ASSERT_EQ(5,StringUtils::EditDistance("intention","execution"));   
+
+    ASSERT_EQ(2,StringUtils::EditDistance("sfdg","sfgng"));  
+    ASSERT_EQ(1,StringUtils::EditDistance("suuu","uuuu"));  
+    ASSERT_EQ(4,StringUtils::EditDistance("water","waffle"));  
+    ASSERT_EQ(4,StringUtils::EditDistance("wateree","waffleeee"));  
+
+    ASSERT_EQ(3,StringUtils::EditDistance("horse","ros"));
+
+
+
+    ASSERT_EQ(3,StringUtils::EditDistance("sfdg","Sfgng"));  
+    ASSERT_EQ(2,StringUtils::EditDistance("suuu","uUuu"));  
+    ASSERT_EQ(4,StringUtils::EditDistance("water","waFFle"));  
+    ASSERT_EQ(6,StringUtils::EditDistance("wateree","WAFfleeee")); 
+
+
+
+    ASSERT_EQ(2,StringUtils::EditDistance("sfdg","Sfgng", true));  
+    ASSERT_EQ(1,StringUtils::EditDistance("suuu","uUuu", true));  
+    ASSERT_EQ(4,StringUtils::EditDistance("water","waFFle", true));  
+    ASSERT_EQ(4,StringUtils::EditDistance("wateree","WAFfleeee", true));    
+
+    ASSERT_EQ(5,StringUtils::EditDistance("HELLO","hello"));    
+    ASSERT_EQ(7,StringUtils::EditDistance("GOODBYE","goodbye"));  
+    ASSERT_EQ(3,StringUtils::EditDistance("How is It Going?","how is it going?")); 
+
+    ASSERT_EQ(0,StringUtils::EditDistance("HELLO","hello", true));    
+    ASSERT_EQ(0,StringUtils::EditDistance("GOODBYE","goodbye", true));  
+    ASSERT_EQ(0,StringUtils::EditDistance("How is It Going?","how is it going?", true));                  
+
+
+
+
+    ASSERT_EQ(5,StringUtils::EditDistance("hello",""));    
+    ASSERT_EQ(7,StringUtils::EditDistance("hello","goodbye"));  
+
+    ASSERT_EQ(0,StringUtils::EditDistance("hello","hello"));    
+    ASSERT_EQ(0,StringUtils::EditDistance("",""));
+
+
 }
